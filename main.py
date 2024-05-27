@@ -40,10 +40,10 @@ class Board:
         motor_2_b = machine.Pin(Pins.MOTOR_2_B, machine.Pin.OUT)
         self.motor_2 = Motor(motor_en_2, motor_2_a, motor_2_b)
 
-        # servo_pwm_1 = machine.Pin(Pins.SERVO_1)
-        # servo_pwm_2 = machine.Pin(Pins.SERVO_2)
-        # self.servo_1 = Servo(servo_pwm_1)
-        # self.servo_2 = Servo(servo_pwm_2)
+        servo_pwm_1 = machine.Pin(Pins.SERVO_1)
+        servo_pwm_2 = machine.Pin(Pins.SERVO_2)
+        self.servo_1 = Servo(servo_pwm_1)
+        self.servo_2 = Servo(servo_pwm_2)
 
     
 def set_angle(pwm, angle):
@@ -61,24 +61,11 @@ pwm_2.freq(50)
 
 board = Board()
 
+#reset
+
+board.servo_1.set_angle(90)
+board.servo_2.set_angle(90)
+
 while True:
-    # board.motor_2.spin(1, 1)
-    # board.motor_1.spin(0, 1)
-    # time.sleep(2)
-    # board.motor_1.stop()
-    # board.motor_2.stop()
-    # time.sleep(2)
-    # board.servo_1.set_angle(0)
-    # time.sleep(2)
-    # board.servo_1.set_angle(90)
-    # time.sleep(2)
-
-    set_angle(pwm_1, 150)
-    set_angle(pwm_2, 150)
-    time.sleep(1)
-    set_angle(pwm_1, 30)
-    set_angle(pwm_2, 30)
-    time.sleep(1)
+    board.led_info.value(1)
     
-    
-
