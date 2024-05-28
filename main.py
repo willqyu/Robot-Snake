@@ -1,6 +1,6 @@
 import machine
 import time
-from motor import Motor, Servo
+from drivers.motor import Motor, Servo
 
 class Pins:
     LED_INFO = 0
@@ -63,9 +63,12 @@ board = Board()
 
 #reset
 
-board.servo_1.set_angle(90)
-board.servo_2.set_angle(90)
+board.servo_1.set_angle(0)
+board.servo_2.set_angle(0)
 
 while True:
     board.led_info.value(1)
+    angle = int(input())
+    board.servo_1.set_angle(angle)
+    board.servo_2.set_angle(angle)
     
