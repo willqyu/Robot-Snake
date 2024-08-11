@@ -2,26 +2,38 @@ import machine
 
 class Motor:
     def __init__(self, pin_en: machine.Pin, pin_a : machine.Pin, pin_b : machine.Pin) -> None:
-        self.en = pin_en
+        
         self.pin_a = pin_a
         self.pin_b = pin_b
         
-        self.speed = 0
-        self.dir = True
+        self.en = machine.PWM(pin_en)
+        self.en.freq(50)
+        self.angle = 0
 
     def spin(self, dir : int, speed : int):
+        # speed is a number between 0 and 100 -> %
+
+        if speed <= 0:
+            self.stop()
+            return
+        
+        clamped_speed = max(min(100, speed), 0)
+        scaled_speed = int(clamped_speed * 65535 / 100)
+        self.en.duty_u16(scaled_speed)
+
         if dir:
             self.pin_a.value(1)
             self.pin_b.value(0)
-            self.en.value(1)
         
         else:
             self.pin_a.value(0)
             self.pin_b.value(1)
-            self.en.value(1)
+        
+        
     
     def stop(self):
-        self.en.value(0)
+        print("stopping")
+        self.en.duty_u16(0)
         self.pin_a.value(0)
         self.pin_b.value(0)
 
